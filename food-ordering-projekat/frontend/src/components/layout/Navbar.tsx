@@ -151,7 +151,7 @@ const Navbar = () => {
                     onClick={handleCheckout}
                     className="mt-2 flex w-full justify-center rounded-full bg-red-600 py-1 text-lg font-medium text-white"
                   >
-                    Checkout
+                    {`Checkout $${cart.totalPrice.toFixed(2)}`}
                   </button>
                 </div>
               ) : (

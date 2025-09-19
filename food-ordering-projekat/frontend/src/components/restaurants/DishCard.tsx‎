@@ -12,9 +12,7 @@ interface Props {
 const DishCard = ({ dish }: Props) => {
   const [count, setCount] = useState(0);
 
-const { cart, addToCart, removeFromCart } = useCartContext();
-
-  console.log(cart);
+const { addToCart, removeFromCart } = useCartContext();
 
   const handleMinus = () => {
     if (count > 0) {
