@@ -1,0 +1,38 @@
+export interface Restaurant {
+  _id: string;
+  name: string;
+  location: {
+    lat: number;
+    lng: number;
+  };
+  address: string;
+  image: string;
+  category: string;
+}
+
+export const restaurants: Restaurant[] = [
+  {
+    _id: "1",
+    name: "Burrito Madre",
+    location: {
+      lat: 44.8131,
+      lng: 20.4531,
+    },
+    address: "Terazije 27",
+    image:
+      "https://www.adamall.com/wp-content/uploads/2021/12/BURITO-Madre-hero-baner_mob.jpg",
+    category: "Mexican food",
+  },
+  {
+    _id: "2",
+    name: "Zlatni bokal",
+    location: {
+      lat: 44.8173,
+      lng: 20.4559,
+    },
+    address: "Skadarska 26",
+    image:
+      "https://www.beogradnocu.com/wp-content/uploads/2021/03/zlatni-bokal-3.jpg",
+    category: "National cuisine",
+  },
+];
