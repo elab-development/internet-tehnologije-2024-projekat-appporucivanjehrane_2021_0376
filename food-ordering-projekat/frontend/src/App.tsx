@@ -1,18 +1,19 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Layout from './components/layout/Layout';
-import Home from './pages/Home';
-import RestaurantListPage from './pages/restaurant/RestaurantListPage';
-import RestaurantOffer from './pages/restaurant/RestaurantOffer';
-import LoginRestaurant from './pages/auth/LoginRestaurant';
-import Register from './pages/auth/Register';
-import RegisterRestaurant from './pages/auth/RegisterRestaurant';
-import CheckOut from './pages/ordering/CheckOut';
-import TrackOrder from './pages/ordering/TrackOrder';
-import UserProfile from './pages/profile/UserProfile';
-import RestaurantProfile from './pages/profile/RestaurantProfile';
-import AdminProfile from './pages/profile/AdminProfile';
-import NotFound from './pages/NotFound';
+import Layout from "./components/layout/Layout.tsx";
+import Home from "./pages/Home.tsx";
+import RestaurantListPage from "./pages/restaurant/RestaurantListPage.tsx";
+import RestaurantOffer from "./pages/restaurant/RestaurantOffer.tsx";
+import Login from "./pages/auth/Login.tsx";
+import LoginRestaurant from "./pages/auth/LoginRestaurant.tsx";
+import Register from "./pages/auth/Register.tsx";
+import RegisterRestaurant from "./pages/auth/RegisterRestaurant.tsx";
+import CheckOut from "./pages/ordering/CheckOut.tsx";
+import TrackOrder from "./pages/ordering/TrackOrder.tsx";
+import UserProfile from "./pages/profile/UserProfile.tsx";
+import RestaurantProfile from "./pages/profile/RestaurantProfile.tsx";
+import AdminProfile from "./pages/profile/AdminProfile.tsx";
+import NotFound from "./pages/NotFound.tsx";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         <Routes>
           {/* PUBLIC ROUTES START */}
           <Route
-            path='/'
+            path="/"
             element={
               <Layout>
                 <Home />
@@ -29,7 +30,7 @@ function App() {
             }
           />
           <Route
-            path='/restaurants'
+            path="/restaurants"
             element={
               <Layout>
                 <RestaurantListPage />
@@ -37,7 +38,7 @@ function App() {
             }
           />
           <Route
-            path='/restaurants/:id'
+            path="/restaurants/:id"
             element={
               <Layout>
                 <RestaurantOffer />
@@ -48,7 +49,7 @@ function App() {
 
           {/* AUTH ROUTES START */}
           <Route
-            path='/login'
+            path="/login"
             element={
               <Layout>
                 <Login />
@@ -56,7 +57,7 @@ function App() {
             }
           />
           <Route
-            path='/login/restaurant'
+            path="/login/restaurant"
             element={
               <Layout>
                 <LoginRestaurant />
@@ -64,7 +65,7 @@ function App() {
             }
           />
           <Route
-            path='/register'
+            path="/register"
             element={
               <Layout>
                 <Register />
@@ -72,7 +73,7 @@ function App() {
             }
           />
           <Route
-            path='/register/restaurant'
+            path="/register/restaurant"
             element={
               <Layout>
                 <RegisterRestaurant />
@@ -83,7 +84,7 @@ function App() {
 
           {/* ORDERING ROUTES (PRIVATE) START */}
           <Route
-            path='/checkout'
+            path="/checkout"
             element={
               <Layout>
                 <CheckOut />
@@ -91,7 +92,7 @@ function App() {
             }
           />
           <Route
-            path='/track-order'
+            path="/track-order"
             element={
               <Layout>
                 <TrackOrder />
@@ -102,7 +103,7 @@ function App() {
 
           {/* PROFILES/DASHBOARDS (PRIVATE) START */}
           <Route
-            path='/profile'
+            path="/profile"
             element={
               <Layout>
                 <UserProfile />
@@ -110,7 +111,7 @@ function App() {
             }
           />
           <Route
-            path='/profile/restaurant'
+            path="/profile/restaurant"
             element={
               <Layout>
                 <RestaurantProfile />
@@ -118,7 +119,7 @@ function App() {
             }
           />
           <Route
-            path='/profile/admin'
+            path="/profile/admin"
             element={
               <Layout>
                 <AdminProfile />
@@ -127,7 +128,7 @@ function App() {
           />
           {/* PROFILES/DASHBOARDS (PRIVATE) END */}
 
-          <Route path='*' element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </>
