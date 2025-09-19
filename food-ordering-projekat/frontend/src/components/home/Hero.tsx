@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
 
+import ChefIcon from "../../assets/icons/chef.png";
+import DeliveryIcon from "../../assets/icons/fast-delivery.png";
+import ServeIcon from "../../assets/icons/serving-dish.png";
+import VegetablesIcon from "../../assets/icons/vegetable.png";
+import ServiceCard from "./ServiceCard";
+
 const Hero = () => {
   return (
     <section>
@@ -133,6 +139,34 @@ const Hero = () => {
               </svg>
             </a>
           </div>
+        </div>
+
+        <div className="mt-20 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+          <ServiceCard
+            icon={ChefIcon}
+            title="Experienced Chefs"
+            text="Our expert chefs bring years of experience and passion to every
+              dish, ensuring only the top-quality flavors in every bite."
+          />
+          <ServiceCard
+            icon={VegetablesIcon}
+            title="Fresh Ingredients"
+            text="  We source the freshest and finest ingredients to guarantee meals
+              that are healthy, delicious, and full of natural goodness."
+          />
+          <ServiceCard
+            icon={DeliveryIcon}
+            title="Fast Delivery"
+            text="Enjoy your favorite meals delivered hot and fresh to your doorstep
+              in no time, so you can savor every bite without the wait."
+          />
+          <ServiceCard
+            icon={ServeIcon}
+            title="Best Service"
+            text="Our friendly staff is dedicated to providing you with an
+              exceptional dining experience, whether you're dining in or
+              ordering out."
+          />
         </div>
       </div>
     </section>
