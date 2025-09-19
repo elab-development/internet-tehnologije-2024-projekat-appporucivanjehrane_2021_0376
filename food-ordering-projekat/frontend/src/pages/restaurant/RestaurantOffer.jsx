@@ -14,7 +14,6 @@ const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
   useEffect(() => {
     if (id) {
       const foundRestaurant = restaurants.find((res) => res._id === id);
-      console.log(foundRestaurant);
       if (foundRestaurant) {
         setRestaurant(foundRestaurant);
       }

@@ -3,6 +3,7 @@ import { IoPricetagsOutline } from "react-icons/io5";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 
 import { Dish } from "../../lib/TypesData";
+import { useCartContext } from "../../context/useCartContext.hook";
 
 interface Props {
   dish?: Dish;
@@ -11,13 +12,19 @@ interface Props {
 const DishCard = ({ dish }: Props) => {
   const [count, setCount] = useState(0);
 
+const { cart, addToCart, removeFromCart } = useCartContext();
+
+  console.log(cart);
+
   const handleMinus = () => {
     if (count > 0) {
+      removeFromCart(dish!._id);
       setCount(count - 1);
     }
   };
   const handlePlus = () => {
     if (count < 10) {
+      addToCart(dish!, 1);
       setCount(count + 1);
     }
   };

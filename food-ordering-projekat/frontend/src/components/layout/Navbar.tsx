@@ -2,15 +2,24 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Avatar, Dropdown } from "flowbite-react";
 import { MdLogin, MdLogout, MdOutlineAccountBox } from "react-icons/md";
+import { LuShoppingCart } from "react-icons/lu";
 
 import UserPlaceholder from "../../assets/userplaceholder.png";
 import LogoShort from "../../assets/logo-short.png";
+import { useCartContext } from "../../context/useCartContext.hook";
+import CartDishCard from "../restaurants/CartDishCard";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const { cart, clearCart } = useCartContext();
+
   const toggleMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const handleCheckout = () => {
+    clearCart();
   };
 
   return (
@@ -110,6 +119,45 @@ const Navbar = () => {
             </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item icon={MdLogout}>Sign out</Dropdown.Item>
+          </Dropdown>
+
+          <Dropdown
+            label=""
+            dismissOnClick={false}
+            renderTrigger={() => (
+              <div className="relative cursor-pointer">
+                <LuShoppingCart className="text-red-600" size={24} />
+                <span className="absolute -right-3 -top-3 rounded-full bg-red-600 px-1 text-sm font-semibold text-white">
+                  {cart?.totalQuantity}
+                </span>
+              </div>
+            )}
+            className="w-[300px] shadow-lg"
+          >
+            <div className="p-2">
+              <h2 className="mb-4 text-xl font-extrabold">Your Cart</h2>
+              {cart.allDishes.length > 0 ? (
+                <div className="flex flex-col gap-2">
+                  {cart.allDishes.map((dish) => (
+                    <CartDishCard
+                      key={dish.dish._id}
+                      dish={dish.dish}
+                      quantity={dish.quantity}
+                    />
+                  ))}
+
+                  <button
+                    type="button"
+                    onClick={handleCheckout}
+                    className="mt-2 flex w-full justify-center rounded-full bg-red-600 py-1 text-lg font-medium text-white"
+                  >
+                    Checkout
+                  </button>
+                </div>
+              ) : (
+                <p className="font-medium">No dishes added!</p>
+              )}
+            </div>
           </Dropdown>
         </div>
       </div>
