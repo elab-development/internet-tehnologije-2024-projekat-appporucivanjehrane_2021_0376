@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import { ToastContainer } from "react-toastify";
 import Layout from "./components/layout/Layout.tsx";
 import Home from "./pages/Home.tsx";
 import RestaurantListPage from "./pages/restaurant/RestaurantListPage.tsx";
@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound.tsx";
 function App() {
   return (
     <>
+    <ToastContainer />
       <BrowserRouter>
         <Routes>
           {/* PUBLIC ROUTES START */}
