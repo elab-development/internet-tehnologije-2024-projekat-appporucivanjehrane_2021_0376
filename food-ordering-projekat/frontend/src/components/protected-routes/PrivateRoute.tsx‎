@@ -1,0 +1,26 @@
+import React from "react";
+import { Navigate } from "react-router-dom";
+
+import { useAuthStore } from "../../store/authStore";
+
+const PrivateRoute = ({
+  children,
+  type,
+}: {
+  children: React.ReactNode;
+  type: string;
+}) => {
+  const { isAuthenticated, user } = useAuthStore();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (type !== "any" && type !== user?.role) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};
+
+export default PrivateRoute;

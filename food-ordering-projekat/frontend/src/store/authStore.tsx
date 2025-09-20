@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 
 import { Customer, DBRestaurant, User } from "../lib/TypesData";
 
+axios.defaults.withCredentials = true;
+
 // API URLs
 const API_URL_USERS = "http://localhost:8000/api/users";
 const API_URL_CUSTOMERS = "http://localhost:8000/api/customers";

@@ -1,6 +1,10 @@
+import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+
+import { useAuthStore } from "./store/authStore.tsx";
 import Layout from "./components/layout/Layout.tsx";
+import NonPrivateRoute from "./components/protected-routes/NonPrivateRoute.tsx";
 import Home from "./pages/Home.tsx";
 import RestaurantListPage from "./pages/restaurant/RestaurantListPage.tsx";
 import RestaurantOffer from "./pages/restaurant/RestaurantOffer.tsx";
@@ -14,8 +18,22 @@ import UserProfile from "./pages/profile/UserProfile.tsx";
 import RestaurantProfile from "./pages/profile/RestaurantProfile.tsx";
 import AdminProfile from "./pages/profile/AdminProfile.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import LoadingSpinner from "./components/LoadingSpinner.tsx";
+import PrivateRoute from "./components/protected-routes/PrivateRoute.tsx";
 
 function App() {
+  const { isCheckingAuth, checkAuth, user } = useAuthStore();
+
+  console.log(user);
+  console.log(isCheckingAuth);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  if (isCheckingAuth) {
+    return <LoadingSpinner />;
+  }
   return (
     <>
     <ToastContainer />
@@ -52,33 +70,41 @@ function App() {
           <Route
             path="/login"
             element={
-              <Layout>
-                <Login />
-              </Layout>
+               <NonPrivateRoute>
+                <Layout>
+                  <Login />
+                </Layout>
+              </NonPrivateRoute>
             }
           />
           <Route
             path="/login/restaurant"
             element={
-              <Layout>
-                <LoginRestaurant />
-              </Layout>
+              <NonPrivateRoute>
+                <Layout>
+                  <LoginRestaurant />
+                </Layout>
+              </NonPrivateRoute>
             }
           />
           <Route
             path="/register"
             element={
-              <Layout>
-                <Register />
-              </Layout>
+              <NonPrivateRoute>
+                <Layout>
+                  <Register />
+                </Layout>
+              </NonPrivateRoute>
             }
           />
           <Route
             path="/register/restaurant"
             element={
-              <Layout>
-                <RegisterRestaurant />
-              </Layout>
+             <NonPrivateRoute>
+                <Layout>
+                  <RegisterRestaurant />
+                </Layout>
+              </NonPrivateRoute>
             }
           />
           {/* AUTH ROUTES END */}
@@ -87,17 +113,21 @@ function App() {
           <Route
             path="/checkout"
             element={
-              <Layout>
-                <CheckOut />
-              </Layout>
+              <PrivateRoute type="customer">
+                <Layout>
+                  <CheckOut />
+                </Layout>
+              </PrivateRoute>
             }
           />
           <Route
             path="/track-order"
             element={
-              <Layout>
-                <TrackOrder />
-              </Layout>
+              <PrivateRoute type="customer">
+                <Layout>
+                  <TrackOrder />
+                </Layout>
+              </PrivateRoute>
             }
           />
           {/* ORDERING ROUTES (PRIVATE) END */}
@@ -106,25 +136,31 @@ function App() {
           <Route
             path="/profile"
             element={
-              <Layout>
-                <UserProfile />
-              </Layout>
+              <PrivateRoute type="customer">
+                <Layout>
+                  <UserProfile />
+                </Layout>
+              </PrivateRoute>
             }
           />
           <Route
             path="/profile/restaurant"
             element={
-              <Layout>
-                <RestaurantProfile />
-              </Layout>
+               <PrivateRoute type="restaurant">
+                <Layout>
+                  <RestaurantProfile />
+                </Layout>
+              </PrivateRoute>
             }
           />
           <Route
             path="/profile/admin"
             element={
-              <Layout>
-                <AdminProfile />
-              </Layout>
+              <PrivateRoute type="admin">
+                <Layout>
+                  <AdminProfile />
+                </Layout>
+              </PrivateRoute>
             }
           />
           {/* PROFILES/DASHBOARDS (PRIVATE) END */}
