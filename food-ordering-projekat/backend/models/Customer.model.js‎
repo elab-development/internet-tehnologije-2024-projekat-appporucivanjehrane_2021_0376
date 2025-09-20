@@ -15,8 +15,8 @@ const CustomerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    address: {
-      type: String,
+    phone: { type: String },
+    address: { type: String },
     },
     location: {
       lat: { type: Number },

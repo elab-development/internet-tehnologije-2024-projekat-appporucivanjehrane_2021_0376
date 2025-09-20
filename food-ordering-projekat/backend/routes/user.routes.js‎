@@ -1,10 +1,11 @@
 import express from 'express';
 import { checkAuth, logout } from '../controllers/user.controller.js';
 import { verifyToken } from '../middlewares/verifyToken.js';
-
+import { upload } from '../lib/fileUpload.js';
 const router = express.Router();
 
 router.post('/logout', verifyToken, logout);
 router.get('/check-auth', verifyToken, checkAuth);
 
 export default router;
+router.put('/update-profile', verifyToken, upload.single('image'));

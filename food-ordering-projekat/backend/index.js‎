@@ -4,6 +4,9 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import path from 'path';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import userRouter from './routes/user.routes.js';
 import customerRouter from './routes/customer.routes.js';
 import restaurantRouter from './routes/restaurant.routes.js';
@@ -30,8 +33,13 @@ app.use('/api/users', userRouter);
 app.use('/api/customers', customerRouter);
 app.use('/api/restaurants', restaurantRouter);
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 mongoose
   .connect(process.env.MONGO_URI)
+  
   .then(() => console.log('Connected to MongoDB'))
   .catch((e) => console.log('Error connecting to MongoDB: ' + e));
 
