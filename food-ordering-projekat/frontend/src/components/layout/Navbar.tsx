@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Avatar, Dropdown } from "flowbite-react";
-import { MdLogin, MdLogout, MdOutlineAccountBox } from "react-icons/md";
+import { MdLogin, MdLogout, MdMenu, MdOutlineAccountBox } from "react-icons/md";
 import { LuShoppingCart } from "react-icons/lu";
 
 import UserPlaceholder from "../../assets/userplaceholder.png";
@@ -39,25 +39,12 @@ const Navbar = () => {
           type="button"
           className="inline-flex size-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 md:hidden"
         >
-          <svg
-            className="size-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 14"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 1h15M1 7h15M1 13h15"
-            />
-          </svg>
+          <MdMenu size={32} />
         </button>
 
+        {/* DESKTOP MENU START */}
         <div className="hidden flex-row items-center gap-4 md:flex">
-          <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+          <div className="hidden w-full md:block md:w-auto">
             <ul className="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
               <li>
                 <Link
@@ -132,9 +119,9 @@ const Navbar = () => {
                 </span>
               </div>
             )}
-            className="w-[300px] shadow-lg"
+            className="w-[300px] rounded-xl shadow-lg"
           >
-            <div className="p-2">
+             <div className="px-4 pb-4 pt-2">
               <h2 className="mb-4 text-xl font-extrabold">Your Cart</h2>
               {cart.allDishes.length > 0 ? (
                 <div className="flex flex-col gap-2">
@@ -160,8 +147,11 @@ const Navbar = () => {
             </div>
           </Dropdown>
         </div>
+        {/* DESKTOP MENU END */}
       </div>
       {mobileMenuOpen && (
+        
+        {/* MOBILE MENU */}
         <div className="flex md:hidden">
           <ul className="mt-4 flex w-full flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
             <li>
