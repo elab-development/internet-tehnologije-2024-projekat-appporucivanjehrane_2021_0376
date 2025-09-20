@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-
+import mongoose from 'mongoose';
 dotenv.config();
 const port = process.env.PORT || 8000;
 
@@ -22,7 +22,12 @@ app.use(
 app.get('/api', (req, res) => {
   res.status(200).send('Server up and running');
 });
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((e) => console.log('Error connecting to MongoDB: ' + e));
 
 app.listen(port, () => {
+  
   console.log('Server is running on port 8000');
 });
