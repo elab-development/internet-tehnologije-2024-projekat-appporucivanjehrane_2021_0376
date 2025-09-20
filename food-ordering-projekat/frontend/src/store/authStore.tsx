@@ -34,6 +34,7 @@ interface AuthState {
   ) => Promise<void>;
   loginCustomer: (email: string, password: string) => Promise<void>;
   loginRestaurant: (email: string, password: string) => Promise<void>;
+  loginAdmin: (email: string, password: string) => Promise<void>;
   logout: () => void;
   checkAuth: () => Promise<void>;
   updateProfileInformation: (profileData: any) => Promise<void>;
@@ -155,7 +156,29 @@ export const useAuthStore = create<AuthState>((set) => ({
       throw error;
     }
   },
+// LOGIN ADMIN
+  loginAdmin: async (email: string, password: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL_USERS}/admin-login`, {
+        email,
+        password,
+      });
 
+      set({
+        user: response.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ||
+          "Something went wrong while logging in the admin",
+      );
+      set({ isLoading: false });
+      throw error;
+    }
+  },
   // LOGOUT
   logout: async () => {
     set({ isLoading: true, error: null });

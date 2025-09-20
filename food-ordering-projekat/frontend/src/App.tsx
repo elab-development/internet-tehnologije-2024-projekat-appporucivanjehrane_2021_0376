@@ -3,8 +3,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import { useAuthStore } from "./store/authStore.tsx";
+import LoadingSpinner from "./components/LoadingSpinner.tsx";
 import Layout from "./components/layout/Layout.tsx";
 import NonPrivateRoute from "./components/protected-routes/NonPrivateRoute.tsx";
+import PrivateRoute from "./components/protected-routes/PrivateRoute.tsx";
 import Home from "./pages/Home.tsx";
 import RestaurantListPage from "./pages/restaurant/RestaurantListPage.tsx";
 import RestaurantOffer from "./pages/restaurant/RestaurantOffer.tsx";
@@ -12,20 +14,15 @@ import Login from "./pages/auth/Login.tsx";
 import LoginRestaurant from "./pages/auth/LoginRestaurant.tsx";
 import Register from "./pages/auth/Register.tsx";
 import RegisterRestaurant from "./pages/auth/RegisterRestaurant.tsx";
+import LoginAdmin from "./pages/auth/LoginAdmin.tsx";
 import CheckOut from "./pages/ordering/CheckOut.tsx";
 import TrackOrder from "./pages/ordering/TrackOrder.tsx";
 import UserProfile from "./pages/profile/UserProfile.tsx";
 import RestaurantProfile from "./pages/profile/RestaurantProfile.tsx";
-import AdminProfile from "./pages/profile/AdminProfile.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import LoadingSpinner from "./components/LoadingSpinner.tsx";
-import PrivateRoute from "./components/protected-routes/PrivateRoute.tsx";
 
 function App() {
-  const { isCheckingAuth, checkAuth, user } = useAuthStore();
-
-  console.log(user);
-  console.log(isCheckingAuth);
+  const { isCheckingAuth, checkAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
@@ -107,6 +104,16 @@ function App() {
               </NonPrivateRoute>
             }
           />
+          <Route
+            path="/login/admin"
+            element={
+              <NonPrivateRoute>
+                <Layout>
+                  <LoginAdmin />
+                </Layout>
+              </NonPrivateRoute>
+            }
+          />
           {/* AUTH ROUTES END */}
 
           {/* ORDERING ROUTES (PRIVATE) START */}
@@ -149,16 +156,6 @@ function App() {
                <PrivateRoute type="restaurant">
                 <Layout>
                   <RestaurantProfile />
-                </Layout>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/profile/admin"
-            element={
-              <PrivateRoute type="admin">
-                <Layout>
-                  <AdminProfile />
                 </Layout>
               </PrivateRoute>
             }

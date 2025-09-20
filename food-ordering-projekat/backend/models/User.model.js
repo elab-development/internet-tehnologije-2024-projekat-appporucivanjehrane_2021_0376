@@ -20,6 +20,10 @@ const UserSchema = new mongoose.Schema(
       enum: ['admin', 'restaurant', 'customer'],
       default: 'customer',
     },
+    balance: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

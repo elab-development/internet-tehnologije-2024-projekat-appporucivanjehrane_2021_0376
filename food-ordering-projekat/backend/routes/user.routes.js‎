@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   checkAuth,
+  loginAdmin,
   logout,
   updateProfile,
 } from '../controllers/user.controller.js';
@@ -10,6 +11,7 @@ const router = express.Router();
 
 router.post('/logout', verifyToken, logout);
 router.get('/check-auth', verifyToken, checkAuth);
+router.post('/admin-login', loginAdmin);
 
 export default router;
 router.put(
