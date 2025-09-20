@@ -21,6 +21,46 @@ export interface Dish {
   image: string;
 }
 
+export interface User {
+  _id: string;
+  email: string;
+  role: "admin" | "restaurant" | "customer";
+  profileImage?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Customer {
+  _id: string;
+  user: User;
+  firstName: string;
+  lastName: string;
+  address?: string;
+  location?: {
+    lat: number;
+    lng: number;
+  };
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface DBRestaurant {
+  _id: string;
+  user: User;
+  name: string;
+  description?: string;
+  category?: string;
+  address?: string;
+  location?: {
+    lat: number;
+    lng: number;
+  };
+  verified: boolean;
+  commission: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export const dishes: Dish[] = [
   {
     _id: "1",
