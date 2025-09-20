@@ -1,31 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { GrRestaurant } from "react-icons/gr";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 
-import { Restaurant, restaurants } from "../../lib/TypesData";
+import { useRestaurantStore } from "../../store/restaurantStore";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import RestaurantOfferMap from "../../components/maps/RestaurantOfferMap";
-import DishCard from "../../components/restaurants/DishCard";
+// import DishCard from "../../components/restaurants/DishCard";
 const RestaurantOffer = () => {
-const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
+const { isLoading, restaurant, getRestaurantById } = useRestaurantStore();
   const { id } = useParams();
 
   useEffect(() => {
     if (id) {
-      const foundRestaurant = restaurants.find((res) => res._id === id);
-      if (foundRestaurant) {
-        setRestaurant(foundRestaurant);
-      }
+      getRestaurantById(id);
     }
-  }, [id]);
+  }, [id, getRestaurantById]);
 
   return (
     <>
+    {isLoading && <LoadingSpinner />}
       <div className="mx-auto max-w-screen-xl px-4 py-8">
         <div className="mb-4 flex flex-col gap-10 sm:flex-row">
           <img
-            src={restaurant?.image}
+            src={restaurant?.user?.profileImage}
             className="order-2 size-72 rounded-lg sm:order-1"
           />
           <div className="order-1 sm:order-2">
@@ -62,8 +61,8 @@ const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
         <RestaurantOfferMap
           restaurant={restaurant}
           coordinates={{
-            lat: restaurant?.location.lat || 44.8125,
-            lng: restaurant?.location.lng || 20.4612,
+            lat: restaurant?.location!.lat || 44.8125,
+            lng: restaurant?.location!.lng || 20.4612,
           }}
         />
 
@@ -71,7 +70,7 @@ const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
           <h2 className="border-b-2 py-2 text-4xl font-bold text-gray-50">
             Dishes
           </h2>
-          {restaurant?.dishes && restaurant?.dishes.length > 0 ? (
+          {/* {restaurant?.dishes && restaurant?.dishes.length > 0 ? (
             <>
               {restaurant.dishes.map((dish) => (
                 <DishCard key={dish?._id} dish={dish} />
@@ -81,7 +80,9 @@ const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
             <h3 className="text-3xl font-bold text-gray-50">
               No Dishes Found!
             </h3>
+            
           )}
+            )} */}
         </div>
       </div>
     </>

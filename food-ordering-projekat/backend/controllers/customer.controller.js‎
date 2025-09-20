@@ -119,3 +119,26 @@ export const loginCustomer = async (req, res) => {
     });
   }
 };
+
+/**
+ * @route   GET /api/customers
+ * @desc    Fetches all the customers
+ * @access  Admin
+ */
+export const getAllCustomers = async (req, res) => {
+  try {
+    const customers = await Customer.find({})
+      .populate('user', '-password')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      customers,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

@@ -117,3 +117,126 @@ export const loginRestaurant = async (req, res) => {
     });
   }
 };
+
+/**
+ * @route   GET /api/restaurants
+ * @desc    Fetches all the restaurants
+ * @access  Admin
+ */
+export const getAllRestaurants = async (req, res) => {
+  try {
+    const restaurants = await Restaurant.find({})
+      .populate('user', '-password')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      restaurants,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @route   GET /api/restaurants/verified
+ * @desc    Fetches verified restaurants
+ * @access  Public
+ */
+export const getVerifiedRestaurants = async (req, res) => {
+  try {
+    const restaurants = await Restaurant.find({ verified: true })
+      .populate('user', '-password')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      restaurants,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @route   GET /api/restaurants/:id
+ * @desc    Fetches restaurant by id
+ * @access  Public
+ * @param   {string} req.params.id - Restaurant's id
+ */
+export const getRestaurantById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const restaurant = await Restaurant.findById(id)
+      .populate('user', '-password')
+      .sort({ createdAt: -1 });
+
+    if (!restaurant) {
+      return res.status(404).json({
+        success: false,
+        message: 'Restaurant not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      restaurant,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @route   GET /api/restaurants/:id/verify
+ * @desc    Verifies the restaurant and adds the platform commission
+ * @access  Admin
+ * @param   {string} req.params.id - Restaurant's id
+ * @param   {number} req.body.commission - Platform's commission
+ */
+export const verifyRestaurantAddCommission = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const restaurant = await Restaurant.findById(id);
+
+    if (!restaurant) {
+      return res.status(404).json({
+        success: false,
+        message: 'Restaurant not found',
+      });
+    }
+
+    if (req.body.commission > 0) {
+      restaurant.verified = true;
+      restaurant.commission = req.body.commission;
+      await restaurant.save();
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: 'Commission must be greater than 0',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Restaurant verified successfully!',
+      restaurant,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

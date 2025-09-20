@@ -3,7 +3,7 @@ import axios from "axios";
 import { create } from "zustand";
 import { toast } from "react-toastify";
 
-import { Customer, DBRestaurant, User } from "../lib/TypesData";
+import { Customer, Restaurant, User } from "../lib/TypesData";
 
 axios.defaults.withCredentials = true;
 
@@ -15,11 +15,12 @@ const API_URL_RESTAURANTS = "http://localhost:8000/api/restaurants";
 interface AuthState {
   user: User | null;
   customerData: Customer | null;
-  restaurantData: DBRestaurant | null;
+  restaurantData: Restaurant | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   isCheckingAuth: boolean;
   error: string | null;
+  adminData: any;
 
   registerCustomer: (
     email: string,
@@ -38,6 +39,7 @@ interface AuthState {
   logout: () => void;
   checkAuth: () => Promise<void>;
   updateProfileInformation: (profileData: any) => Promise<void>;
+  getAdminData: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -48,6 +50,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   error: null,
   isLoading: false,
   isCheckingAuth: true,
+  adminData: null,
 
   // REGISTER CUSTOMER
   registerCustomer: async (
@@ -262,6 +265,26 @@ export const useAuthStore = create<AuthState>((set) => ({
       toast.error(
         error?.response?.data?.message ||
           "Something went wrong while updating profile information",
+      );
+      set({ isLoading: false });
+      throw error;
+    }
+  },
+
+  // GET ADMIN DATA
+  getAdminData: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL_USERS}/admin-data`);
+
+      set({
+        adminData: response.data.adminData,
+        isLoading: false,
+      });
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ||
+          "Something went wrong while fetching admin data",
       );
       set({ isLoading: false });
       throw error;

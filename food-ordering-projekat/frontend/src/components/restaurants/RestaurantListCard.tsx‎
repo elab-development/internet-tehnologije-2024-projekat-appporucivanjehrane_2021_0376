@@ -11,7 +11,11 @@ interface Props {
 
 const RestaurantListCard = ({ restaurant }: Props) => {
   return (
-    <Card className="sm:w-[500px]" imgSrc={restaurant?.image} horizontal>
+    <Card
+      className="sm:w-[500px]"
+      imgSrc={restaurant?.user?.profileImage}
+      horizontal
+    >
       <h5 className="text-2xl font-bold tracking-tight text-gray-900">
         {restaurant?.name}
       </h5>

@@ -1,16 +1,3 @@
-export interface Restaurant {
-  _id: string;
-  name: string;
-  location: {
-    lat: number;
-    lng: number;
-  };
-  address: string;
-  image: string;
-  category: string;
-  description: string;
-  dishes: Dish[];
-}
 
 export interface Dish {
   _id: string;
@@ -46,7 +33,7 @@ export interface Customer {
   updatedAt?: string;
 }
 
-export interface DBRestaurant {
+export interface Restaurant {
   _id: string;
   user: User;
   name: string;
@@ -103,38 +90,4 @@ export const dishes: Dish[] = [
     price: 7.22,
     image: "https://imageproxy.wolt.com/assets/66c31970963dff5bcc555019?w=300",
   },
-];
-
-export const restaurants: Restaurant[] = [
-  {
-    _id: "1",
-    name: "Burrito Madre",
-    location: {
-      lat: 44.8131,
-      lng: 20.4531,
-    },
-    address: "Terazije 27",
-    image:
-      "https://www.adamall.com/wp-content/uploads/2021/12/BURITO-Madre-hero-baner_mob.jpg",
-    category: "Mexican food",
-    description:
-      "The spirit of Mexico, our country - We brought the Mexican recipe, but we create it from local fruits. All food that can be obtained in our climate is taken from verified local households.",
-    dishes: [dishes[0], dishes[1], dishes[2]],
-  },
-  {
-    _id: "2",
-    name: "Zlatni bokal",
-    location: {
-      lat: 44.8173,
-      lng: 20.4559,
-    },
-    address: "Skadarska 26",
-    image:
-      "https://www.beogradnocu.com/wp-content/uploads/2021/03/zlatni-bokal-3.jpg",
-    category: "National cuisine",
-    description:
-      "Zlatni bokal which is located in the very center of the bohemian culture of Belgrade, represents a combination of modern times and the 19th century in one place. In our luxurious ambience, you can try authentic traditional food, which is prepared with love and attention. In addition to first-class cuisine, you can enjoy a selection of wines, and our tambourine players will take care of the excellent atmosphere and take you back in time.",
-    dishes: [dishes[3]],
-  },
-  
 ];

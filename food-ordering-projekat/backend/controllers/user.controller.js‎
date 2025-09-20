@@ -225,4 +225,31 @@ export const updateProfile = async (req, res) => {
       message: error.message,
     });
   }
+
+/**
+ * @route   GET /api/users/admin-data
+ * @desc    Fetches data for admin dashboard
+ * @access  Admin
+ */
+export const getAdminData = async (req, res) => {
+  try {
+    const totalCustomers = await Customer.find({}).countDocuments();
+    const totalRestaurants = await Restaurant.find({}).countDocuments();
+    const totalOrders = 0; // TODO
+
+    res.status(200).json({
+      success: true,
+      adminData: {
+        totalCustomers,
+        totalRestaurants,
+        totalOrders,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 };
