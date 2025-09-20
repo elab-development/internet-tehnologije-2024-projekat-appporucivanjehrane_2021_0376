@@ -35,6 +35,7 @@ export interface Customer {
   user: User;
   firstName: string;
   lastName: string;
+  phone?: string;
   address?: string;
   location?: {
     lat: number;
@@ -50,6 +51,7 @@ export interface DBRestaurant {
   name: string;
   description?: string;
   category?: string;
+  phone?: string;
   address?: string;
   location?: {
     lat: number;

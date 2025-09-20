@@ -36,6 +36,7 @@ interface AuthState {
   loginRestaurant: (email: string, password: string) => Promise<void>;
   logout: () => void;
   checkAuth: () => Promise<void>;
+  updateProfileInformation: (profileData: any) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -207,6 +208,40 @@ export const useAuthStore = create<AuthState>((set) => ({
         isAuthenticated: false,
         isCheckingAuth: false,
       });
+    }
+  },
+  // UPDATE PROFILE
+  updateProfileInformation: async (profileData) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const response = await axios.put(
+        `${API_URL_USERS}/update-profile`,
+        profileData,
+      );
+
+      set({
+        user: response.data.user,
+        isLoading: false,
+      });
+      if (response.data.user.role === "customer") {
+        set({
+          customerData: response.data.additionalData,
+        });
+      } else if (response.data.user.role === "restaurant") {
+        set({
+          restaurantData: response.data.additionalData,
+        });
+      }
+
+      // eslint-disable-next-line no-unused-vars
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ||
+          "Something went wrong while updating profile information",
+      );
+      set({ isLoading: false });
+      throw error;
     }
   },
 }));

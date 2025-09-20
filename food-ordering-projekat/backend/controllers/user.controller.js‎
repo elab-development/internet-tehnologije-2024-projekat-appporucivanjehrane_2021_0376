@@ -126,7 +126,10 @@ export const updateProfile = async (req, res) => {
             lastName: req.body.lastName,
             phone: req.body.phone,
             address: req.body.address,
-            location: req.body.location,
+            location:
+              typeof req.body.location === 'string'
+                ? JSON.parse(req.body.location)
+                : req.body.location,
           },
         },
         { new: true }
@@ -149,6 +152,10 @@ export const updateProfile = async (req, res) => {
             phone: req.body.phone,
             address: req.body.address,
             location: req.body.location,
+            location:
+              typeof req.body.location === 'string'
+                ? JSON.parse(req.body.location)
+                : req.body.location,
           },
         },
         { new: true }
