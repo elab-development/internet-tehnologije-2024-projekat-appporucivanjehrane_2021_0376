@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MdOutlineHomeWork,
   MdOutlineMail,
@@ -7,16 +7,29 @@ import {
 import { FaEdit } from "react-icons/fa";
 
 import { useAuthStore } from "../../store/authStore";
+import { useOrderStore } from "../../store/orderStore";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import EditProfileForm from "../../components/profile/EditProfileForm";
+import UserOrderCard from "../../components/orders/UserOrderCard";
 
 const UserProfile = () => {
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const { user, customerData, isLoading } = useAuthStore();
+  const {
+    isLoading: ordersLoading,
+    orders,
+    getOrdersByCustomer,
+  } = useOrderStore();
+
+  useEffect(() => {
+    if (customerData) {
+      getOrdersByCustomer(customerData._id);
+    }
+  }, [getOrdersByCustomer, customerData]);
 
   return (
     <>
-      {isLoading && <LoadingSpinner />}
+      {(isLoading || ordersLoading) && <LoadingSpinner />}
       <div className="flex">
         <div className="mx-auto my-20 w-11/12 rounded-md border bg-white p-5 shadow-lg md:w-3/4 lg:w-1/2">
           <div className="mt-4">
@@ -58,15 +71,15 @@ const UserProfile = () => {
               <h4 className="mb-4 text-xl font-semibold text-gray-700">
                 Orders
               </h4>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="rounded-lg bg-gray-100 p-4 shadow transition duration-300 ease-in-out hover:shadow-md">
-                  <p className="font-medium text-gray-800">Order abc123</p>
-                  <p className="mt-1 text-sm text-gray-600">02/03/2025</p>
-                  <button className="mt-2 text-red-600 transition duration-300 ease-in-out hover:text-red-600">
-                    View Details
-                  </button>
+              {orders && orders.length > 0 ? (
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  {orders.map((order) => (
+                    <UserOrderCard key={order._id} order={order} />
+                  ))}
                 </div>
-              </div>
+              ) : (
+                <p className="font-medium">No orders yet!</p>
+              )}
             </div>
           </div>
         </div>

@@ -48,12 +48,22 @@ export interface Dish {
   description: string;
   price: number;
   image: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Order {
   _id: string;
   customer: Customer;
   restaurant: Restaurant;
+  dishes: {
+    dish: Dish;
+    quantity: number;
+  }[];
   totalPrice: number;
   status: string;
+  minutesToPrepare: number;
+  minutesToDeliver: number;
+  createdAt?: string;
+  updatedAt?: string;
 }

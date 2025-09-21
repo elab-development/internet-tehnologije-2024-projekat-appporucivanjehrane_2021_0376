@@ -1,6 +1,6 @@
 import { User } from '../models/User.model.js';
 
-export const verifyRestaurant = async (req, res, next) => {
+export const verifyCustomer = async (req, res, next) => {
   try {
     const user = await User.findById(req.userId);
 
@@ -11,10 +11,10 @@ export const verifyRestaurant = async (req, res, next) => {
       });
     }
 
-    if (user.role !== 'restaurant') {
+    if (user.role !== 'customer') {
       return res.status(401).json({
         success: false,
-        message: 'Unauthorized - not restaurant',
+        message: 'Unauthorized - not customer',
       });
     }
 

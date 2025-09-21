@@ -31,9 +31,10 @@ function App() {
   if (isCheckingAuth) {
     return <LoadingSpinner />;
   }
+
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <BrowserRouter>
         <Routes>
           {/* PUBLIC ROUTES START */}
@@ -67,7 +68,7 @@ function App() {
           <Route
             path="/login"
             element={
-               <NonPrivateRoute>
+              <NonPrivateRoute>
                 <Layout>
                   <Login />
                 </Layout>
@@ -97,7 +98,7 @@ function App() {
           <Route
             path="/register/restaurant"
             element={
-             <NonPrivateRoute>
+              <NonPrivateRoute>
                 <Layout>
                   <RegisterRestaurant />
                 </Layout>
@@ -128,9 +129,9 @@ function App() {
             }
           />
           <Route
-            path="/track-order"
+            path="/track-order/:id"
             element={
-              <PrivateRoute type="customer">
+              <PrivateRoute type="any">
                 <Layout>
                   <TrackOrder />
                 </Layout>
@@ -153,7 +154,7 @@ function App() {
           <Route
             path="/profile/restaurant"
             element={
-               <PrivateRoute type="restaurant">
+              <PrivateRoute type="restaurant">
                 <Layout>
                   <RestaurantProfile />
                 </Layout>

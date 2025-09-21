@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Dropdown } from "flowbite-react";
 import {
   MdLogin,
@@ -21,7 +21,9 @@ const Navbar = () => {
 
   const { isAuthenticated, user, customerData, restaurantData, logout } =
     useAuthStore();
-  const { cart, clearCart } = useCartContext();
+  const { cart } = useCartContext();
+
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -35,7 +37,7 @@ const Navbar = () => {
   };
 
   const handleCheckout = () => {
-    clearCart();
+    navigate("/checkout");
   };
 
   return (
