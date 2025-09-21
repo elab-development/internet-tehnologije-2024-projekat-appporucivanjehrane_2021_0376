@@ -6,17 +6,20 @@ import { useAuthStore } from "../../store/authStore";
 import DishesView from "./restaurant/DishesView";
 import RestaurantOrdersView from "./restaurant/RestaurantOrdersView";
 import { useDishStore } from "../../store/dishStore";
+import { useOrderStore } from "../../store/orderStore";
 
 const RestaurantDashboard = () => {
   const [dashboardView, setDashboardView] = useState("dishes");
   const { restaurantData } = useAuthStore();
   const { dishes, getRestaurantsDishes } = useDishStore();
+  const { orders, getOrdersByRestaurant } = useOrderStore();
 
   useEffect(() => {
     if (restaurantData) {
       getRestaurantsDishes(restaurantData?._id);
+      getOrdersByRestaurant(restaurantData?._id);
     }
-  }, [getRestaurantsDishes, restaurantData]);
+  }, [getRestaurantsDishes, getOrdersByRestaurant, restaurantData]);
 
   return (
     <>
@@ -45,7 +48,7 @@ const RestaurantDashboard = () => {
             <h5 className="my-2 text-2xl font-semibold tracking-tight text-gray-700">
               Orders
             </h5>
-            <h6 className="text-4xl font-medium">x</h6>
+            <h6 className="text-4xl font-medium">{orders?.length || 0}</h6>
           </div>
         </div>
 

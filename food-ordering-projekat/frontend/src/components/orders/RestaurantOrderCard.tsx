@@ -8,15 +8,15 @@ interface Props {
   order: Order;
 }
 
-const UserOrderCard = ({ order }: Props) => {
+const RestaurantOrderCard = ({ order }: Props) => {
   return (
     <Link key={order._id} to={`/track-order/${order?._id}`}>
-      <div className="rounded-lg p-4 shadow transition duration-300 ease-in-out hover:shadow-md">
+      <div className="rounded-lg bg-white p-4 shadow transition duration-300 ease-in-out hover:shadow-md">
         <div className="flex flex-col">
           <div className="flex flex-row justify-between">
             <img
-              src={order?.restaurant?.user?.profileImage}
-              alt={order?.restaurant?.name}
+              src={order?.customer?.user?.profileImage}
+              alt={order?.customer?.user?.email}
               className="size-20 rounded-md"
             />
             <div
@@ -37,35 +37,22 @@ const UserOrderCard = ({ order }: Props) => {
               {order.status === "cancelled" && <MdClose color="white" />}
             </div>
           </div>
-          <h2 className="pt-2 text-xl font-medium">{order.restaurant?.name}</h2>
+          <h2 className="pt-2 text-xl font-medium">
+            {order?.customer?.firstName} {order?.customer?.lastName}
+          </h2>
           <p className="font-medium text-gray-800">Order {order?._id}</p>
           <p className="mt-1 text-sm text-gray-600">
             {new Date(order.createdAt!).toLocaleDateString()}{" "}
             {new Date(order.createdAt!).toLocaleTimeString()}
           </p>
 
-          {order?.status !== "completed" ? (
-            <p className="pt-4 font-medium">
-              Status:{" "}
-              <span className="text-gray-700">
-                {order?.status === "pending-confirm" &&
-                  "Store has received your order"}
-                {order?.status === "pending-make" &&
-                  "Store is preparing your order"}
-                {order?.status === "pending-delivery" && "Delivery in progress"}
-                {order?.status === "cancelled" && "Order cancelled"}
-                {order?.status === "completed" && "Order completed"}
-              </span>
-            </p>
-          ) : (
-            <p className="text-right text-xl font-medium">
-              ${order?.totalPrice.toFixed(2)}
-            </p>
-          )}
+          <p className="text-right text-xl font-medium">
+            ${order?.totalPrice.toFixed(2)}
+          </p>
         </div>
       </div>
     </Link>
   );
 };
 
-export default UserOrderCard;
+export default RestaurantOrderCard;

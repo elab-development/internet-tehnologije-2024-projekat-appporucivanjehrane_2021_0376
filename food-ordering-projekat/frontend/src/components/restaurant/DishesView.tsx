@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useDishStore } from "../../../store/dishStore";
 import { useAuthStore } from "../../../store/authStore";
@@ -13,15 +13,8 @@ const DishesView = () => {
   const [openModal, setOpenModal] = useState(false);
   const [dishToUpdate, setDishToUpdate] = useState<Dish | null>(null);
 
-  const { isLoading, dishes, getRestaurantsDishes, deleteDish } =
-    useDishStore();
+  const { isLoading, dishes, deleteDish } = useDishStore();
   const { restaurantData } = useAuthStore();
-
-  useEffect(() => {
-    if (restaurantData && restaurantData._id) {
-      getRestaurantsDishes(restaurantData._id);
-    }
-  }, [getRestaurantsDishes, restaurantData]);
 
   const handleDelete = async (id: string) => {
     try {

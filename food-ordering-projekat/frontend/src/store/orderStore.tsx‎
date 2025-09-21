@@ -17,6 +17,7 @@ interface OrderState {
 
   createOrder: (orderData: any) => Promise<void>;
   getOrdersByCustomer: (customerId: string) => Promise<void>;
+  getOrdersByRestaurant: (restaurantId: string) => Promise<void>;
 }
 
 export const useOrderStore = create<OrderState>((set) => ({
@@ -57,6 +58,28 @@ export const useOrderStore = create<OrderState>((set) => ({
     try {
       const response = await axios.get(
         `${API_URL_ORDERS}/${customerId}/customer`,
+      );
+
+      set({
+        orders: response.data.orders,
+        isLoading: false,
+      });
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ||
+          "Something went wrong while fetching orders",
+      );
+      set({ isLoading: false });
+      throw error;
+    }
+  },
+
+  // GET ORDERS BY RESTAURANT
+  getOrdersByRestaurant: async (restaurantId: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(
+        `${API_URL_ORDERS}/${restaurantId}/restaurant`,
       );
 
       set({

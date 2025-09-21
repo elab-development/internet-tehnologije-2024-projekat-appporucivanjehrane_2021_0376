@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import {
   MdOutlineHomeWork,
@@ -7,16 +7,28 @@ import {
 } from "react-icons/md";
 
 import { useAuthStore } from "../../store/authStore";
+import { useOrderStore } from "../../store/orderStore";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import EditRestaurantProfileForm from "../../components/profile/EditRestaurantProfileForm";
 
 const RestaurantProfile = () => {
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const { user, restaurantData, isLoading } = useAuthStore();
+  const {
+    isLoading: orderLoading,
+    orders,
+    getOrdersByRestaurant,
+  } = useOrderStore();
+
+  useEffect(() => {
+    if (restaurantData) {
+      getOrdersByRestaurant(restaurantData._id);
+    }
+  }, [getOrdersByRestaurant, restaurantData]);
 
   return (
     <>
-      {isLoading && <LoadingSpinner />}
+      {(isLoading || orderLoading) && <LoadingSpinner />}
       <div className="flex">
         <div className="mx-auto my-20 w-11/12 rounded-md border bg-white p-5 shadow-lg md:w-3/4 lg:w-1/2">
           <div className="mt-4">
@@ -79,7 +91,9 @@ const RestaurantProfile = () => {
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="rounded-lg bg-gray-100 p-4 shadow transition duration-300 ease-in-out hover:shadow-md">
                   <p className="font-medium text-gray-800">Total Orders</p>
-                  <p className="mt-1 text-sm font-medium text-gray-600">0</p>
+                  <p className="mt-1 text-sm font-medium text-gray-600">
+                    {orders?.length || 0}
+                  </p>
                 </div>
                 <div className="rounded-lg bg-gray-100 p-4 shadow transition duration-300 ease-in-out hover:shadow-md">
                   <p className="font-medium text-gray-800">Earnings</p>

@@ -1,5 +1,34 @@
+import { useAuthStore } from "../../../store/authStore";
+import { useOrderStore } from "../../../store/orderStore";
+import RestaurantOrderCard from "../../orders/RestaurantOrderCard";
+
 const RestaurantOrdersView = () => {
-  return <div>RestaurantOrdersView</div>;
+  const { orders } = useOrderStore();
+  const { restaurantData } = useAuthStore();
+
+  return (
+    <>
+      <div className="my-10">
+        <div className="flex flex-wrap justify-between gap-3">
+          <h2 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-50 md:text-4xl lg:text-5xl">
+            {restaurantData?.name} Orders
+          </h2>
+        </div>
+
+        <div className="mt-4 grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
+          {orders && orders?.length > 0 ? (
+            <>
+              {orders?.map((order) => (
+                <RestaurantOrderCard order={order} key={order._id} />
+              ))}
+            </>
+          ) : (
+            <p className="text-xl font-medium text-white">No orders yet</p>
+          )}
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default RestaurantOrdersView;

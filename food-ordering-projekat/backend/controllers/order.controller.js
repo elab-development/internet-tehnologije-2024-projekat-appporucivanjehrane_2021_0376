@@ -102,3 +102,45 @@ export const getCustomersOrders = async (req, res) => {
     });
   }
 };
+
+/**
+ * @route   GET /api/orders/:id/restaurant
+ * @desc    Get orders by restaurant
+ * @access  Private
+ * @param   {string} req.params.id - Restaurants's id
+ */
+export const getRestaurantsOrders = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const orders = await Order.find({ restaurant: id })
+      .populate({
+        path: 'customer',
+        populate: {
+          path: 'user',
+          select: '-password',
+        },
+      })
+      .populate({
+        path: 'restaurant',
+        populate: {
+          path: 'user',
+          select: '-password',
+        },
+      })
+      .populate({
+        path: 'dishes.dish',
+      })
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
