@@ -27,17 +27,17 @@ const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
           allDishes: [{ dish, quantity }],
           totalQuantity: quantity,
           totalPrice: dish.price * quantity,
-          restaurantId: dish.restaurant,
+          restaurantId: dish.restaurant._id,
         };
       }
 
       // Prevent adding items from different restaurants
-      if (prevCart.restaurantId !== dish.restaurant) {
+      if (prevCart.restaurantId !== dish.restaurant._id) {
         return {
           allDishes: [{ dish, quantity }],
           totalQuantity: quantity,
           totalPrice: dish.price * quantity,
-          restaurantId: dish.restaurant,
+          restaurantId: dish.restaurant._id,
         };
       }
 

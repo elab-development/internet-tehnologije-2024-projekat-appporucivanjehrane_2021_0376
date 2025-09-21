@@ -1,13 +1,3 @@
-
-export interface Dish {
-  _id: string;
-  restaurant: string;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-}
-
 export interface User {
   _id: string;
   email: string;
@@ -49,4 +39,21 @@ export interface Restaurant {
   commission: number;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface Dish {
+  _id: string;
+  restaurant: Restaurant;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+}
+
+export interface Order {
+  _id: string;
+  customer: Customer;
+  restaurant: Restaurant;
+  totalPrice: number;
+  status: string;
 }

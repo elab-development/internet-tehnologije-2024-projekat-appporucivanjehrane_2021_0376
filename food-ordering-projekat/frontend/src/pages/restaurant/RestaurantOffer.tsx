@@ -7,20 +7,29 @@ import { FaRegHeart } from "react-icons/fa";
 import { useRestaurantStore } from "../../store/restaurantStore";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import RestaurantOfferMap from "../../components/maps/RestaurantOfferMap";
-// import DishCard from "../../components/restaurants/DishCard";
+import { useDishStore } from "../../store/dishStore";
+import DishCard from "../../components/restaurants/DishCard";
+
 const RestaurantOffer = () => {
 const { isLoading, restaurant, getRestaurantById } = useRestaurantStore();
+const {
+    isLoading: dishLoading,
+    dishes,
+    getRestaurantsDishes,
+  } = useDishStore();
   const { id } = useParams();
 
   useEffect(() => {
     if (id) {
       getRestaurantById(id);
+      getRestaurantsDishes(id);
     }
-  }, [id, getRestaurantById]);
+    
+  }, [id, getRestaurantById, getRestaurantsDishes]);
 
   return (
     <>
-    {isLoading && <LoadingSpinner />}
+    {(isLoading || dishLoading) && <LoadingSpinner />}
       <div className="mx-auto max-w-screen-xl px-4 py-8">
         <div className="mb-4 flex flex-col gap-10 sm:flex-row">
           <img
@@ -70,9 +79,9 @@ const { isLoading, restaurant, getRestaurantById } = useRestaurantStore();
           <h2 className="border-b-2 py-2 text-4xl font-bold text-gray-50">
             Dishes
           </h2>
-          {/* {restaurant?.dishes && restaurant?.dishes.length > 0 ? (
+          {dishes && dishes.length > 0 ? (
             <>
-              {restaurant.dishes.map((dish) => (
+              {dishes.map((dish) => (
                 <DishCard key={dish?._id} dish={dish} />
               ))}
             </>
@@ -82,7 +91,7 @@ const { isLoading, restaurant, getRestaurantById } = useRestaurantStore();
             </h3>
             
           )}
-            )} */}
+            )}
         </div>
       </div>
     </>
