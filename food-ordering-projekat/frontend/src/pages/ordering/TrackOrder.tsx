@@ -22,7 +22,11 @@ const TrackOrder = () => {
     try {
       if (order) {
         if (status === "pending-make") {
-          const minutesToPrepare = (order?.dishes?.length || 0) * 5;
+          const totalQuantity = order?.dishes?.reduce(
+            (total, dish) => total + dish.quantity,
+            0,
+          );
+          const minutesToPrepare = (totalQuantity || 0) * 5;
           await updateOrderStatus(order._id, {
             status: "pending-make",
             minutesToPrepare,

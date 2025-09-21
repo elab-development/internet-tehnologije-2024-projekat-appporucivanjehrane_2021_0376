@@ -38,8 +38,6 @@ const CheckOut = () => {
 
   const handleCheckout = async () => {
     try {
-      console.log(customerData);
-
       const data = {
         customer: customerData!._id,
         restaurant: cart.restaurantId,
@@ -160,25 +158,24 @@ const CheckOut = () => {
                 )}
               </div>
 
-              <div>
-                <OrderMap
-                  customerLocation={
-                    customerData?.location || {
-                      lat: 44.8125,
-                      lng: 20.4612,
-                    }
-                  }
-                  restaurantLocation={restaurantLocation!}
-                  setDeliveryTime={setDeliveryTime}
-                />
-              </div>
+              {customerData?.location && (
+                <>
+                  <div>
+                    <OrderMap
+                      customerLocation={customerData.location}
+                      restaurantLocation={restaurantLocation!}
+                      setDeliveryTime={setDeliveryTime}
+                    />
+                  </div>
 
               <button
-                onClick={handleCheckout}
-                className="mt-20 w-full rounded-full border-2 border-red-600 bg-red-600 py-2 text-xl font-bold text-white hover:bg-transparent hover:text-red-600"
-              >
-                Order Now
-              </button>
+                    onClick={handleCheckout}
+                    className="mt-20 w-full rounded-full border-2 border-red-600 bg-red-600 py-2 text-xl font-bold text-white hover:bg-transparent hover:text-red-600"
+                  >
+                    Order Now
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

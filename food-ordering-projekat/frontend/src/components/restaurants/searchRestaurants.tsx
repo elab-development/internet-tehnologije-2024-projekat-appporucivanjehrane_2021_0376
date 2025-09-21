@@ -11,12 +11,8 @@ interface Props {
 const SearchRestaurants = ({ searchQuery, setSearchQuery, setSort }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
-
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-lg">
+    <div className="mx-auto max-w-lg">
       <div className="flex">
         <button
           onClick={(e) => {
@@ -30,10 +26,7 @@ const SearchRestaurants = ({ searchQuery, setSearchQuery, setSort }: Props) => {
         </button>
 
         {isDropdownOpen && (
-          <div
-            id="dropdown"
-            className="absolute mt-12 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow-sm"
-          >
+           <div className="absolute mt-12 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow-sm">
             <ul className="py-2 text-sm font-medium  text-gray-700">
               {["name", "orders"].map((category) => (
                 <li key={category}>
@@ -70,7 +63,7 @@ const SearchRestaurants = ({ searchQuery, setSearchQuery, setSort }: Props) => {
           </button>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 

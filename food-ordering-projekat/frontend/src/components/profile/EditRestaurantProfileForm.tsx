@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import React, { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { APIProvider } from "@vis.gl/react-google-maps";
@@ -75,6 +76,7 @@ const EditRestaurantProfileForm = ({ setEditOpen }: Props) => {
       await updateProfileInformation(formData);
       handleDismiss();
     } catch (error) {
+      toast.success("Restaurant information updated successfully!");
       console.log(error);
     }
   };

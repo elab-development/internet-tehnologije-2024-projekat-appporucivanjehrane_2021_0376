@@ -3,10 +3,10 @@ import { IoRestaurantSharp } from "react-icons/io5";
 import { MdOutlineDeliveryDining } from "react-icons/md";
 
 import { useAuthStore } from "../../store/authStore";
-import DishesView from "./restaurant/DishesView";
-import RestaurantOrdersView from "./restaurant/RestaurantOrdersView";
 import { useDishStore } from "../../store/dishStore";
 import { useOrderStore } from "../../store/orderStore";
+import DishesView from "./restaurant/DishesView";
+import RestaurantOrdersView from "./restaurant/RestaurantOrdersView";
 
 const RestaurantDashboard = () => {
   const [dashboardView, setDashboardView] = useState("dishes");

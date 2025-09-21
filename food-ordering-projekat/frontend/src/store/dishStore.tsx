@@ -11,7 +11,6 @@ const API_URL_DISHES = "http://localhost:8000/api/dishes";
 
 interface DishState {
   dishes: Dish[];
-  dish: Dish | null;
   isLoading: boolean;
   error: string | null;
 
@@ -23,7 +22,6 @@ interface DishState {
 
 export const useDishStore = create<DishState>((set) => ({
   dishes: [],
-  dish: null,
   error: null,
   isLoading: false,
 

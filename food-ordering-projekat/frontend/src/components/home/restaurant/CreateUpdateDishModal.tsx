@@ -61,6 +61,7 @@ const CreateUpdateDishModal = ({
       // UPDATE DISH
       await updateDish(formData, dishToUpdate?._id);
       toast.success("Dish updated successfully!");
+      setDishToUpdate(null);
       setOpenModal(false);
     } else {
       // CREATE DISH

@@ -37,16 +37,6 @@ export const registerRestaurant = async (req, res) => {
     });
     await user.save();
 
-    const restaurantExists = await Restaurant.findOne({
-      user: user._id,
-    });
-    if (restaurantExists) {
-      return res.status(400).json({
-        success: false,
-        message: 'Restaurant already exists',
-      });
-    }
-
     const restaurant = new Restaurant({
       name,
       user: user._id,
