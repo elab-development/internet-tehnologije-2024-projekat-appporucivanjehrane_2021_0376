@@ -39,6 +39,7 @@ export interface Restaurant {
   commission: number;
   createdAt?: string;
   updatedAt?: string;
+  totalOrders?: number;
 }
 
 export interface Dish {

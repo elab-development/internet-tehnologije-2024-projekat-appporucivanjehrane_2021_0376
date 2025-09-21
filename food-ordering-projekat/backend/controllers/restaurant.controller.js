@@ -1,6 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import { User } from '../models/User.model.js';
 import { Restaurant } from '../models/Restaurant.model.js';
+import { Order } from '../models/Order.model.js';
 import { generateTokenAndSetCookie } from '../lib/authToken.js';
 
 /**
@@ -145,16 +146,53 @@ export const getAllRestaurants = async (req, res) => {
  * @route   GET /api/restaurants/verified
  * @desc    Fetches verified restaurants
  * @access  Public
+ * * @param   {string} req.query.sort - Sort by
+ * @param   {string} req.query.search - Search query
  */
 export const getVerifiedRestaurants = async (req, res) => {
   try {
-    const restaurants = await Restaurant.find({ verified: true })
-      .populate('user', '-password')
-      .sort({ createdAt: -1 });
+    const { sort, search } = req.query;
+
+    const searchFilter = search
+      ? {
+          $or: [
+            { name: { $regex: search, $options: 'i' } },
+            { category: { $regex: search, $options: 'i' } },
+            { address: { $regex: search, $options: 'i' } },
+          ],
+        }
+      : {};
+
+    let restaurants = await Restaurant.find({
+      verified: true,
+      ...searchFilter,
+    }).populate('user', '-password');
+
+    const restaurantsWithOrders = await Promise.all(
+      restaurants.map(async (restaurant) => {
+        const totalOrders = await Order.countDocuments({
+          restaurant: restaurant._id,
+        });
+        return {
+          ...restaurant.toObject(),
+          totalOrders,
+        };
+      })
+    );
+
+    if (sort === 'name') {
+      restaurantsWithOrders.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sort === 'orders') {
+      restaurantsWithOrders.sort((a, b) => b.totalOrders - a.totalOrders);
+    } else {
+      restaurantsWithOrders.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+    }
 
     res.status(200).json({
       success: true,
-      restaurants,
+      restaurants: restaurantsWithOrders,
     });
   } catch (error) {
     res.status(400).json({

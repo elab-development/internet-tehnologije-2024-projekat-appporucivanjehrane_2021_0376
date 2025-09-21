@@ -37,7 +37,7 @@ const CustomersView = () => {
                     <img
                       src={customer?.user?.profileImage}
                       alt={customer?.firstName}
-                      className="lg:size-20"
+                      className="w-20"
                     />
                   </Table.Cell>
                   <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
