@@ -29,7 +29,7 @@ const CustomersView = () => {
           <Table.Body className="divide-y">
             {customers &&
               customers.map((customer, index) => (
-                <Table.Row className="bg-white font-medium">
+                <Table.Row key={index} className="bg-white font-medium">
                   <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                     {index + 1}
                   </Table.Cell>
@@ -37,6 +37,7 @@ const CustomersView = () => {
                     <img
                       src={customer?.user?.profileImage}
                       alt={customer?.firstName}
+                      className="lg:size-20"
                     />
                   </Table.Cell>
                   <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
@@ -55,7 +56,7 @@ const CustomersView = () => {
                     {new Date(customer.createdAt!).toLocaleDateString() || "NA"}
                   </Table.Cell>
                   <Table.Cell className="whitespace-nowrap text-gray-900">
-                    $ {customer?.user?.balance}
+                    $ {customer?.user?.balance?.toFixed(2)}
                   </Table.Cell>
                 </Table.Row>
               ))}

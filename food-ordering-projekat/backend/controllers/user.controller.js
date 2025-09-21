@@ -5,6 +5,7 @@ import { User } from '../models/User.model.js';
 import { Customer } from '../models/Customer.model.js';
 import { Restaurant } from '../models/Restaurant.model.js';
 import { generateTokenAndSetCookie } from '../lib/authToken.js';
+import { Order } from '../models/Order.model.js';
 
 /**
  * @route   POST /api/users/logout
@@ -235,7 +236,7 @@ export const getAdminData = async (req, res) => {
   try {
     const totalCustomers = await Customer.find({}).countDocuments();
     const totalRestaurants = await Restaurant.find({}).countDocuments();
-    const totalOrders = 0; // TODO
+    const totalOrders = await Order.find({}).countDocuments();
 
     res.status(200).json({
       success: true,

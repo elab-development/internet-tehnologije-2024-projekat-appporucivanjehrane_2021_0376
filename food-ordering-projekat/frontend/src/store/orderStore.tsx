@@ -16,6 +16,7 @@ interface OrderState {
   error: string | null;
 
   createOrder: (orderData: any) => Promise<void>;
+  getAllOrders: () => Promise<void>;
   getOrdersByCustomer: (customerId: string) => Promise<void>;
   getOrdersByRestaurant: (restaurantId: string) => Promise<void>;
   getOrderById: (orderId: string) => Promise<void>;
@@ -48,6 +49,25 @@ export const useOrderStore = create<OrderState>((set) => ({
       toast.error(
         error?.response?.data?.message ||
           "Something went wrong while creating the order",
+      );
+      set({ isLoading: false });
+      throw error;
+    }
+  },
+// GET ALL ORDERS
+  getAllOrders: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL_ORDERS}`);
+
+      set({
+        orders: response.data.orders,
+        isLoading: false,
+      });
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ||
+          "Something went wrong while fetching orders",
       );
       set({ isLoading: false });
       throw error;
