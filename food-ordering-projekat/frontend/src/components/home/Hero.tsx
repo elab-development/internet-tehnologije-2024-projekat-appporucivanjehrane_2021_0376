@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { MdChevronRight } from "react-icons/md";
+
 import ChefIcon from "../../assets/icons/chef.png";
 import DeliveryIcon from "../../assets/icons/fast-delivery.png";
 import ServeIcon from "../../assets/icons/serving-dish.png";

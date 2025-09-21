@@ -98,7 +98,7 @@ const RestaurantProfile = () => {
                 <div className="rounded-lg bg-gray-100 p-4 shadow transition duration-300 ease-in-out hover:shadow-md">
                   <p className="font-medium text-gray-800">Earnings</p>
                   <p className="mt-1 text-sm font-medium text-gray-600">
-                    $ {restaurantData?.user?.balance}
+                    $ {user?.balance.toFixed(2)}
                   </p>
                 </div>
               </div>

@@ -1,9 +1,9 @@
 import express from 'express';
 import {
-  loginRestaurant,
   getAllRestaurants,
   getRestaurantById,
   getVerifiedRestaurants,
+  loginRestaurant,
   registerRestaurant,
   verifyRestaurantAddCommission,
 } from '../controllers/restaurant.controller.js';
@@ -25,4 +25,5 @@ router.put(
   verifyAdmin,
   verifyRestaurantAddCommission
 );
+
 export default router;

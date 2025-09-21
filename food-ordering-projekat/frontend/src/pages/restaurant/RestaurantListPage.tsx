@@ -12,6 +12,7 @@ const RestaurantListPage = () => {
   useEffect(() => {
     getVerifiedRestaurants();
   }, [getVerifiedRestaurants]);
+
   return (
     <>
       {isLoading && <LoadingSpinner />}
@@ -26,7 +27,8 @@ const RestaurantListPage = () => {
             Find the perfect spot, check out their location, and enjoy a
             delicious meal today!
           </p>
-        <div className="flex flex-col items-center gap-2 text-left">
+
+          <div className="flex flex-col items-center gap-2 text-left">
             {restaurants &&
               restaurants.map((restaurant) => (
                 <Link

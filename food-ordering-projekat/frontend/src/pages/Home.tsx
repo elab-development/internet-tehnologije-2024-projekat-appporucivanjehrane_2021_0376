@@ -12,7 +12,7 @@ const Home = () => {
         <Hero />
       )}
       {isAuthenticated && user?.role === "admin" && <AdminDashboard />}
-       {isAuthenticated && user?.role === "restaurant" && (
+      {isAuthenticated && user?.role === "restaurant" && (
         <RestaurantDashboard />
       )}
     </>

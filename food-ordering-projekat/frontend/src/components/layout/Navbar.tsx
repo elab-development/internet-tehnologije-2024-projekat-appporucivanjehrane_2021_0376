@@ -28,7 +28,8 @@ const Navbar = () => {
   const toggleMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
- const handleLogout = async () => {
+
+  const handleLogout = async () => {
     try {
       logout();
     } catch (error) {
@@ -129,7 +130,7 @@ const Navbar = () => {
                 </Dropdown.Item>
               </Dropdown>
 
-          {user?.role === "customer" && (
+              {user?.role === "customer" && (
                 <Dropdown
                   label=""
                   dismissOnClick={false}
@@ -155,7 +156,7 @@ const Navbar = () => {
                           />
                         ))}
 
-                  <button
+                        <button
                           type="button"
                           onClick={handleCheckout}
                           className="mt-2 flex w-full justify-center rounded-full bg-red-600 py-1 text-lg font-medium text-white"
@@ -178,7 +179,6 @@ const Navbar = () => {
                 <div className="cursor-pointer rounded-full bg-red-600 px-4 py-2 font-bold text-white hover:bg-red-400">
                   Get Started
                 </div>
-              
               )}
             >
               <Link to={"/login"}>
@@ -203,9 +203,9 @@ const Navbar = () => {
         </div>
         {/* DESKTOP MENU END */}
       </div>
+
+      {/* MOBILE MENU */}
       {mobileMenuOpen && (
-        
-        {/* MOBILE MENU */}
         <div className="flex md:hidden">
           <ul className="mt-4 flex w-full flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
             {isAuthenticated && user?.role !== "customer" ? (

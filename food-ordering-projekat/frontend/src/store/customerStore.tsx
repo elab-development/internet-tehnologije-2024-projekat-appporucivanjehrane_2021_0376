@@ -1,0 +1,43 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import axios from "axios";
+import { create } from "zustand";
+import { toast } from "react-toastify";
+
+import { Customer } from "../lib/TypesData";
+
+axios.defaults.withCredentials = true;
+
+const API_URL_CUSTOMERS = "http://localhost:8000/api/customers";
+
+interface CustomerState {
+  customers: Customer[];
+  isLoading: boolean;
+  error: string | null;
+
+  getAllCustomers: () => Promise<void>;
+}
+
+export const useCustomerStore = create<CustomerState>((set) => ({
+  customers: [],
+  error: null,
+  isLoading: false,
+
+  getAllCustomers: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL_CUSTOMERS}`);
+
+      set({
+        customers: response.data.customers,
+        isLoading: false,
+      });
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ||
+          "Something went wrong while fetching customers",
+      );
+      set({ isLoading: false });
+      throw error;
+    }
+  },
+}));

@@ -11,8 +11,8 @@ import { useDishStore } from "../../store/dishStore";
 import DishCard from "../../components/restaurants/DishCard";
 
 const RestaurantOffer = () => {
-const { isLoading, restaurant, getRestaurantById } = useRestaurantStore();
-const {
+  const { isLoading, restaurant, getRestaurantById } = useRestaurantStore();
+  const {
     isLoading: dishLoading,
     dishes,
     getRestaurantsDishes,
@@ -24,12 +24,11 @@ const {
       getRestaurantById(id);
       getRestaurantsDishes(id);
     }
-    
   }, [id, getRestaurantById, getRestaurantsDishes]);
 
   return (
     <>
-    {(isLoading || dishLoading) && <LoadingSpinner />}
+      {(isLoading || dishLoading) && <LoadingSpinner />}
       <div className="mx-auto max-w-screen-xl px-4 py-8">
         <div className="mb-4 flex flex-col gap-10 sm:flex-row">
           <img
@@ -89,12 +88,11 @@ const {
             <h3 className="text-3xl font-bold text-gray-50">
               No Dishes Found!
             </h3>
-            
           )}
-            )}
         </div>
       </div>
     </>
   );
+};
 
-export default RestaurantOffer;}
+export default RestaurantOffer;

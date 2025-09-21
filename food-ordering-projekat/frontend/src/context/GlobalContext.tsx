@@ -1,0 +1,15 @@
+import { createContext } from "react";
+
+import { Cart } from "./ContextWrapper";
+import { Dish } from "../lib/TypesData";
+
+interface GlobalContextType {
+  cart: Cart;
+  addToCart: (dish: Dish, quantity?: number) => void;
+  removeFromCart: (dishId: string) => void;
+  clearCart: () => void;
+}
+
+const GlobalContext = createContext<GlobalContextType | null>(null);
+
+export default GlobalContext;

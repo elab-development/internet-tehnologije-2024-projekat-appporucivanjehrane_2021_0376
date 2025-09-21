@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import LogoLong from "../../assets/logo-long.png";
 import { useAuthStore } from "../../store/authStore";
 import LoadingSpinner from "../../components/LoadingSpinner";
+
 const LoginRestaurant = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

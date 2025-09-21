@@ -159,7 +159,8 @@ export const useAuthStore = create<AuthState>((set) => ({
       throw error;
     }
   },
-// LOGIN ADMIN
+
+  // LOGIN ADMIN
   loginAdmin: async (email: string, password: string) => {
     set({ isLoading: true, error: null });
     try {
@@ -182,6 +183,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       throw error;
     }
   },
+
   // LOGOUT
   logout: async () => {
     set({ isLoading: true, error: null });
@@ -236,6 +238,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       });
     }
   },
+
   // UPDATE PROFILE
   updateProfileInformation: async (profileData) => {
     set({ isLoading: true, error: null });

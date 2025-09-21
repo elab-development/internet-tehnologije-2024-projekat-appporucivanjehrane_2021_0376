@@ -1,0 +1,254 @@
+import bcryptjs from 'bcryptjs';
+import { v2 as cloudinary } from 'cloudinary';
+
+import { User } from '../models/User.model.js';
+import { Customer } from '../models/Customer.model.js';
+import { Restaurant } from '../models/Restaurant.model.js';
+import { generateTokenAndSetCookie } from '../lib/authToken.js';
+
+/**
+ * @route   POST /api/users/logout
+ * @desc    Logging out the user and clearing token
+ * @access  Private
+ */
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie('token');
+    res.status(200).json({
+      success: true,
+      message: 'User logged out successfully',
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @route   POST /api/users/check-auth
+ * @desc    Checking if cookies for logged in user exists
+ * @access  Private
+ */
+export const checkAuth = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    let additionalData = null;
+
+    if (user.role === 'customer') {
+      additionalData = await Customer.findOne({ user: user._id });
+    } else if (user.role === 'restaurant') {
+      additionalData = await Restaurant.findOne({ user: user._id });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'User authenticated',
+      user: {
+        ...user._doc,
+        password: undefined,
+      },
+      additionalData,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @route   POST /api/users/admin-login
+ * @desc    Logins in admin user and generates a token
+ * @access  Public
+ * @param   {string} req.body.email - Restaurant's email address
+ * @param   {string} req.body.password - Restaurant's password
+ */
+export const loginAdmin = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email, role: 'admin' });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Wrong credentials',
+      });
+    }
+
+    const isPasswordValid = await bcryptjs.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({
+        success: false,
+        message: 'Wrong credentials',
+      });
+    }
+
+    generateTokenAndSetCookie(res, user._id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Admin logged in successfully',
+      user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @route   PUT /api/users/update-profile
+ * @desc    Updating users profile information
+ * @access  Private
+ * @param   {file} req.file - Profile image
+ * @param   {string} req.body.firstName - Customer's first name
+ * @param   {string} req.body.lastName - Customer's last name
+ * @param   {string} req.body.phone - Customer's/Restaurant's phone
+ * @param   {string} req.body.address - Customer's/Restaurant's address
+ * @param   {object} req.body.location - Customer's/Restaurant's location
+ * @param   {string} req.body.name - Restaurant's name
+ * @param   {string} req.body.description - Restaurant's description
+ * @param   {string} req.body.category - Restaurant's category
+ */
+export const updateProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select('-password');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    let photo = '';
+    if (req.file) {
+      let uploadedFile;
+      try {
+        cloudinary.config({
+          cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+          api_key: process.env.CLOUDINARY_API_KEY,
+          api_secret: process.env.CLOUDINARY_API_SECRET,
+        });
+
+        uploadedFile = await cloudinary.uploader.upload(req.file.path, {
+          folder: 'aFood/Users',
+          resource_type: 'image',
+        });
+      } catch (error) {
+        res.status(500);
+        throw new Error('Something went wrong while uploading the image');
+      }
+
+      photo = uploadedFile.secure_url;
+    }
+
+    if (photo.length > 0) {
+      user.profileImage = photo;
+      await user.save();
+    }
+
+    let additionalData = null;
+
+    if (user.role === 'customer') {
+      additionalData = await Customer.findOneAndUpdate(
+        { user: user._id },
+        {
+          $set: {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            phone: req.body.phone,
+            address: req.body.address,
+            location:
+              typeof req.body.location === 'string'
+                ? JSON.parse(req.body.location)
+                : req.body.location,
+          },
+        },
+        { new: true }
+      ).select('-user.password');
+
+      if (!additionalData) {
+        return res.status(404).json({
+          success: false,
+          message: 'Customer not found',
+        });
+      }
+    } else if (user.role === 'restaurant') {
+      additionalData = await Restaurant.findOneAndUpdate(
+        { user: user._id },
+        {
+          $set: {
+            name: req.body.name,
+            description: req.body.description,
+            category: req.body.category,
+            phone: req.body.phone,
+            address: req.body.address,
+            location:
+              typeof req.body.location === 'string'
+                ? JSON.parse(req.body.location)
+                : req.body.location,
+          },
+        },
+        { new: true }
+      );
+
+      if (!additionalData) {
+        return res.status(404).json({
+          success: false,
+          message: 'Restaurant not found',
+        });
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `${user.role} updated successfully`,
+      user,
+      additionalData,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @route   GET /api/users/admin-data
+ * @desc    Fetches data for admin dashboard
+ * @access  Admin
+ */
+export const getAdminData = async (req, res) => {
+  try {
+    const totalCustomers = await Customer.find({}).countDocuments();
+    const totalRestaurants = await Restaurant.find({}).countDocuments();
+    const totalOrders = 0; // TODO
+
+    res.status(200).json({
+      success: true,
+      adminData: {
+        totalCustomers,
+        totalRestaurants,
+        totalOrders,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
