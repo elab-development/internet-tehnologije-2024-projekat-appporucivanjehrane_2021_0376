@@ -61,7 +61,10 @@ const RestaurantProfile = () => {
                 Account Information
               </h4>
               {restaurantData?.verified ? (
-                <div>{/* TODO: Account Informnation */}</div>
+                <div className="flex flex-col gap-2 font-medium">
+                  <p>{restaurantData?.category}</p>
+                  <p>{restaurantData?.description}</p>
+                </div>
               ) : (
                 <p className="font-medium text-yellow-500">
                   Pending verification...
@@ -75,11 +78,14 @@ const RestaurantProfile = () => {
               </h4>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="rounded-lg bg-gray-100 p-4 shadow transition duration-300 ease-in-out hover:shadow-md">
-                  <p className="font-medium text-gray-800">Order abc123</p>
-                  <p className="mt-1 text-sm text-gray-600">02/03/2025</p>
-                  <button className="mt-2 text-red-600 transition duration-300 ease-in-out hover:text-red-600">
-                    View Details
-                  </button>
+                  <p className="font-medium text-gray-800">Total Orders</p>
+                  <p className="mt-1 text-sm font-medium text-gray-600">0</p>
+                </div>
+                <div className="rounded-lg bg-gray-100 p-4 shadow transition duration-300 ease-in-out hover:shadow-md">
+                  <p className="font-medium text-gray-800">Earnings</p>
+                  <p className="mt-1 text-sm font-medium text-gray-600">
+                    $ {restaurantData?.user?.balance}
+                  </p>
                 </div>
               </div>
             </div>

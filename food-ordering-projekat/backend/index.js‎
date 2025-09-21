@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 import userRouter from './routes/user.routes.js';
 import customerRouter from './routes/customer.routes.js';
 import restaurantRouter from './routes/restaurant.routes.js';
+import dishRouter from './routes/dish.routes.js';
 dotenv.config();
 const port = process.env.PORT || 8000;
 
@@ -32,6 +33,7 @@ app.get('/api', (req, res) => {
 app.use('/api/users', userRouter);
 app.use('/api/customers', customerRouter);
 app.use('/api/restaurants', restaurantRouter);
+app.use('/api/dishes', dishRouter);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

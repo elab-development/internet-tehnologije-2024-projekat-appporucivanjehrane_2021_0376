@@ -12,11 +12,11 @@ const CartDishCard = ({ dish, quantity }: Props) => {
         <div className="flex flex-row items-center gap-2">
           <img
             src={dish?.image}
-            alt={dish?.title}
+            alt={dish?.name}
             className="size-12 object-cover"
           />
           <div>
-            <h3 className="line-clamp-1 text-xs font-medium">{dish?.title}</h3>
+            <h3 className="line-clamp-1 text-xs font-medium">{dish?.name}</h3>
             <h3 className="text-xs font-bold">${dish?.price}</h3>
           </div>
         </div>

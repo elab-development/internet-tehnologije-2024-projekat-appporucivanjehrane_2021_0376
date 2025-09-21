@@ -1,0 +1,5 @@
+const RestaurantOrdersView = () => {
+  return <div>RestaurantOrdersView</div>;
+};
+
+export default RestaurantOrdersView;

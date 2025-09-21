@@ -2,7 +2,7 @@
 export interface Dish {
   _id: string;
   restaurant: string;
-  title: string;
+  name: string;
   description: string;
   price: number;
   image: string;
@@ -50,44 +50,3 @@ export interface Restaurant {
   createdAt?: string;
   updatedAt?: string;
 }
-
-export const dishes: Dish[] = [
-  {
-    _id: "1",
-    restaurant: "1",
-    title: "Achiote Chicken Burrito",
-    description:
-      "White Rice, Black Beans, Mocahete Salsa, Pico de Gallo, Corn Salsa, Marinated Cucumber, Cheese, Crema Fresca",
-    price: 6.99,
-    image:
-      "https://glovo.dhmedia.io/image/menus-glovo/products/120688bcdf2fdae2595dff04edeb5aa0554f9cd0bab2dabbfb34be69060a9a30?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=",
-  },
-  {
-    _id: "2",
-    restaurant: "1",
-    title: "Barbacoa Burrito",
-    description:
-      "White Rice, Black Beans, Pico de Gallo, Corn Salsa, Mocahete Salsa, Marinated Cucumber, Cheese, Crema Fresca",
-    price: 8.99,
-    image:
-      "https://glovo.dhmedia.io/image/menus-glovo/products/9c0441f3eb859acb53719fe10aa19898a7f6cdb5a3700655efc5c1ec3a0a8711?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=",
-  },
-  {
-    _id: "3",
-    restaurant: "1",
-    title: "Vege Quesadilla",
-    description: "Gouda cheese, young spinach, mushrooms, black beans",
-    price: 5.99,
-    image:
-      "https://glovo.dhmedia.io/image/menus-glovo/products/7cc44e2a439e3107c9711fa5ff1beb19df63748110e0d092f386b7f253f8ef53?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=",
-  },
-  {
-    _id: "4",
-    restaurant: "2",
-    title: "Serbian Breakfast",
-    description:
-      "Eggs, bacon, crackling tobacco, ajvar, proja, greens pie, cream",
-    price: 7.22,
-    image: "https://imageproxy.wolt.com/assets/66c31970963dff5bcc555019?w=300",
-  },
-];
