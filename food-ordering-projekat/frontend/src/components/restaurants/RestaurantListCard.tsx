@@ -30,11 +30,15 @@ const RestaurantListCard = ({ restaurant }: Props) => {
             color="black"
             className="text-gray-700"
           />
-          <p className="font-medium text-gray-700">{restaurant?.address}</p>
+          <p className="line-clamp-1 font-medium text-gray-700">
+            {restaurant?.address}
+          </p>
         </div>
         <div className="flex flex-row items-center gap-3">
           <FaRegHeart size={18} color="black" className="text-gray-700" />
-          <p className="font-medium text-gray-700">52 orders</p>
+          <p className="font-medium text-gray-700">
+            {restaurant?.totalOrders || 0} orders
+          </p>
         </div>
       </div>
     </Card>

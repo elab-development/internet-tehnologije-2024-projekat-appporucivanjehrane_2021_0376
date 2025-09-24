@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { FaEdit } from "react-icons/fa";
 import { APIProvider } from "@vis.gl/react-google-maps";
 
@@ -66,6 +67,7 @@ const EditProfileForm = ({ setEditOpen }: Props) => {
       }
 
       await updateProfileInformation(formData);
+      toast.success("Profile updated successfully!");
       handleDismiss();
     } catch (error) {
       console.log(error);

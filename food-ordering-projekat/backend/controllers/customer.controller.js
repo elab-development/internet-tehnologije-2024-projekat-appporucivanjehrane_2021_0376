@@ -36,16 +36,6 @@ export const registerCustomer = async (req, res) => {
     });
     await user.save();
 
-    const customerExists = await Customer.findOne({
-      user: user._id,
-    });
-    if (customerExists) {
-      return res.status(400).json({
-        success: false,
-        message: 'Customer already exists',
-      });
-    }
-
     const customer = new Customer({
       firstName,
       lastName,

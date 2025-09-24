@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import LogoLong from "../../assets/logo-long.png";
@@ -9,9 +9,8 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 const LoginRestaurant = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const navigate = useNavigate();
 
-  const { isLoading, loginRestaurant, isAuthenticated } = useAuthStore();
+  const { isLoading, loginRestaurant } = useAuthStore();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,10 +20,7 @@ const LoginRestaurant = () => {
       }
 
       await loginRestaurant(email, password);
-
-      if (isAuthenticated) {
-        navigate("/");
-      }
+toast.success("Logged in successfully!");
     } catch (error) {
       console.log(error);
     }

@@ -2,6 +2,7 @@ import { v2 as cloudinary } from 'cloudinary';
 
 import { Dish } from '../models/Dish.model.js';
 import { Restaurant } from '../models/Restaurant.model.js';
+import { Order } from '../models/Order.model.js';
 
 /**
  * @route   POST /api/dishes
@@ -246,7 +247,15 @@ export const deleteDish = async (req, res) => {
       });
     }
 
-    // TODO: Delete forbiden for dishes inside of orders
+    const ordersWithThisDish = await Order.find({
+      'dishes.dish': dish._id,
+    });
+    if (ordersWithThisDish.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Not allowed to delete dishes inside of orders',
+      });
+    }
 
     await Dish.findByIdAndDelete(req.params.id);
 

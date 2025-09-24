@@ -34,7 +34,9 @@ const AdminDashboard = () => {
             <h5 className="my-2 text-2xl font-semibold tracking-tight text-gray-700">
               Platform Balance
             </h5>
-            <h6 className="text-4xl font-medium">$ {user?.balance}</h6>
+            <h6 className="text-4xl font-medium">
+              $ {user?.balance?.toFixed(2)}
+            </h6>
           </div>
 
           <div

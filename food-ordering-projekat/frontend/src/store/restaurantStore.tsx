@@ -16,7 +16,7 @@ interface RestaurantState {
   error: string | null;
 
   getAllRestaurants: () => Promise<void>;
-  getVerifiedRestaurants: () => Promise<void>;
+  getVerifiedRestaurants: (sort: string, search: string) => Promise<void>;
   getRestaurantById: (restaurantId: string) => Promise<void>;
   verifyRestaurant: (restaurantId: string, commission: number) => Promise<void>;
 }
@@ -48,10 +48,12 @@ export const useRestaurantStore = create<RestaurantState>((set) => ({
   },
 
   // GET VERIFIED RESTAURANTS
-  getVerifiedRestaurants: async () => {
+  getVerifiedRestaurants: async (sort: string, search: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_URL_RESTAURANTS}/verified`);
+       const response = await axios.get(
+        `${API_URL_RESTAURANTS}/verified?sort=${sort}&search=${search}`,
+      );
 
       set({
         restaurants: response.data.restaurants,

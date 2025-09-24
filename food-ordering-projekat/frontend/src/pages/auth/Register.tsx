@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import LogoLong from "../../assets/logo-long.png";
@@ -11,9 +11,8 @@ const Register = () => {
   const [password, setPassword] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const navigate = useNavigate();
 
-  const { isLoading, registerCustomer, isAuthenticated } = useAuthStore();
+  const { isLoading, registerCustomer } = useAuthStore();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,10 +26,7 @@ const Register = () => {
       }
 
       await registerCustomer(email, password, firstName, lastName);
-
-      if (isAuthenticated) {
-        navigate("/");
-      }
+toast.success(`Welcome ${firstName}!`);
     } catch (error) {
       console.log(error);
     }

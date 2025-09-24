@@ -54,7 +54,6 @@ const UserOrderCard = ({ order }: Props) => {
                   "Store is preparing your order"}
                 {order?.status === "pending-delivery" && "Delivery in progress"}
                 {order?.status === "cancelled" && "Order cancelled"}
-                {order?.status === "completed" && "Order completed"}
               </span>
             </p>
           ) : (

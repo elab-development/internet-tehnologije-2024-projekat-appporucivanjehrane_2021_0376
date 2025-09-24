@@ -63,10 +63,47 @@ export const createOrder = async (req, res) => {
 };
 
 /**
- * @route   GET /api/orders/:id/customer
+ * 
+ * 
+ * /**
+ * @route   GET /api/orders
  * @desc    Get orders by customer
- * @access  Private
- * @param   {string} req.params.id - Customer's id
+ * @access  Admin
+ 
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({})
+      .populate({
+        path: 'customer',
+        populate: {
+          path: 'user',
+          select: '-password',
+        },
+      })
+      .populate({
+        path: 'restaurant',
+        populate: {
+          path: 'user',
+          select: '-password',
+        },
+      })
+      .populate({
+        path: 'dishes.dish',
+      })
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
  */
 export const getCustomersOrders = async (req, res) => {
   const { id } = req.params;

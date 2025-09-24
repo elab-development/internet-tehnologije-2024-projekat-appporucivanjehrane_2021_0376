@@ -2,12 +2,11 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { GrRestaurant } from "react-icons/gr";
 import { IoLocationOutline } from "react-icons/io5";
-import { FaRegHeart } from "react-icons/fa";
 
 import { useRestaurantStore } from "../../store/restaurantStore";
+import { useDishStore } from "../../store/dishStore";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import RestaurantOfferMap from "../../components/maps/RestaurantOfferMap";
-import { useDishStore } from "../../store/dishStore";
 import DishCard from "../../components/restaurants/DishCard";
 
 const RestaurantOffer = () => {
@@ -58,10 +57,6 @@ const RestaurantOffer = () => {
                 <p className="font-medium text-gray-50">
                   {restaurant?.address}
                 </p>
-              </div>
-              <div className="flex flex-row items-center gap-3">
-                <FaRegHeart size={18} color="#fff" className="text-gray-50" />
-                <p className="font-medium text-gray-50">52 orders</p>
               </div>
             </div>
           </div>

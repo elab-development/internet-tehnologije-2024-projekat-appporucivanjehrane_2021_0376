@@ -36,7 +36,7 @@ const RestaurantsView = () => {
           <Table.Body className="divide-y">
             {restaurants &&
               restaurants.map((restaurant, index) => (
-                <Table.Row className="bg-white font-medium">
+                <Table.Row key={index} className="bg-white font-medium">
                   <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                     {index + 1}
                   </Table.Cell>
@@ -78,7 +78,7 @@ const RestaurantsView = () => {
                     )}
                   </Table.Cell>
                   <Table.Cell className="whitespace-nowrap text-gray-900">
-                    $ {restaurant?.user?.balance}
+                    $ {restaurant?.user?.balance?.toFixed(2)}
                   </Table.Cell>
                 </Table.Row>
               ))}
