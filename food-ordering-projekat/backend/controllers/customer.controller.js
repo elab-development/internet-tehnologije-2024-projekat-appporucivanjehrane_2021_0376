@@ -20,7 +20,7 @@ export const registerCustomer = async (req, res) => {
       throw new Error('Fill all the required fields');
     }
 
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ email }); // afaeffaf
     if (userExists) {
       return res.status(400).json({
         success: false,
